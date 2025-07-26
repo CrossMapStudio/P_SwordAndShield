@@ -184,7 +184,7 @@ public class WeaponStateMachine : StateMachine
 {
     private PlayerInputDriver InputDriver;
     public PlayerController Controller { get; private set; }
-    private List<WeaponState> Weapon_States;
+    public List<WeaponState> Weapon_States { get; private set; }
     private List<Weapon> WeaponList;
     private int WeaponIndex = 0;
     public Weapon AssignedWeapon { get; private set; }
@@ -223,6 +223,16 @@ public class WeaponStateMachine : StateMachine
             Assigned_SM = this,
             InputController = this.InputDriver,
         });
+        Weapon_States.Add(new Weapon_Primary("W_Primary")
+        {
+            Assigned_SM = this,
+            InputController = this.InputDriver,
+        });
+        Weapon_States.Add(new Weapon_Recharge("W_Recharge")
+        {
+            Assigned_SM = this,
+            InputController = this.InputDriver,
+        });
         #endregion
 
         InputDriver.Get_PrimaryAction.performed += OnPrimaryDown;
@@ -244,6 +254,8 @@ public class WeaponStateMachine : StateMachine
 
     public void OnPrimaryUp(InputAction.CallbackContext Context)
     {
+        if (AssignedWeapon == null) return;
+        changeState(Weapon_States.FirstOrDefault(c => c.ID == "W_Primary"));
         OnRelease.Invoke();
     }
 }

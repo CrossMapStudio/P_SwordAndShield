@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: -1405282111
   m_SortingLayer: 3
   m_SortingOrder: 1
-  m_Sprite: {fileID: 7911335423599211159, guid: 36bfaf20afa9f86438edcc77b5d71589, type: 3}
+  m_Sprite: {fileID: -1747440390029680005, guid: 36bfaf20afa9f86438edcc77b5d71589, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -127,8 +127,8 @@ BoxCollider2D:
   m_Offset: {x: -0.0014924407, y: 0.5776092}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.5, y: 1}
+    pivot: {x: 0, y: 0.5}
+    oldSize: {x: 1, y: 0.5}
     newSize: {x: 0.5, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -175,7 +175,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0e3afafe000ae548bd9726db7ede687, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 1
-  ThrowRadius: 10
   <WeaponRigidBody>k__BackingField: {fileID: 4416415726172426176}
   <WeaponSpriteRenderer>k__BackingField: {fileID: 4357016046984942590}
+  Damage: 1
+  Speed: 10
+  Radius: 5
