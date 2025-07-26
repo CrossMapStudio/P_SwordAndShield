@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a267631b82644c48bc0b88e8f31022e, type: 3}
+  m_Name: CharacterDatabase
+  m_EditorClassIdentifier: 
+  CharacterList:
+  - ID: 0
+    <MaxSpeed>k__BackingField: 3
+    <Acceleration>k__BackingField: 20
+    <BaseHealth>k__BackingField: 6
+    <BaseArmor>k__BackingField: 2
+    <Idle>k__BackingField: {fileID: 7400000, guid: d380b25d73ca97b4c88f6def5c22fae5, type: 2}
+    <Running>k__BackingField: {fileID: 7400000, guid: 2e581164b7b067c4695103c20adce92d, type: 2}
+    <Dodging>k__BackingField: {fileID: 7400000, guid: 6fe18f49b9dae1947935d0b7c96c3f45, type: 2}
+    <Stunned>k__BackingField: {fileID: 7400000, guid: 35befbee195347244abdf741d4e231ca, type: 2}
+    <WeaponList>k__BackingField:
+    - {fileID: 386959370196116508, guid: da56b2ca623a8764691f5e530e52d9e3, type: 3}
+  - ID: 1
+    <MaxSpeed>k__BackingField: 4
+    <Acceleration>k__BackingField: 15
+    <BaseHealth>k__BackingField: 2
+    <BaseArmor>k__BackingField: 1
+    <Idle>k__BackingField: {fileID: 7400000, guid: 7c5a6bc0d168be848954256344f55037, type: 2}
+    <Running>k__BackingField: {fileID: 7400000, guid: 86b00f2386deb004382482e96d492252, type: 2}
+    <Dodging>k__BackingField: {fileID: 7400000, guid: 49db660416d321d438f3b0a92caf9db6, type: 2}
+    <Stunned>k__BackingField: {fileID: 7400000, guid: 35befbee195347244abdf741d4e231ca, type: 2}
+    <WeaponList>k__BackingField:
+    - {fileID: 386959370196116508, guid: da56b2ca623a8764691f5e530e52d9e3, type: 3}
