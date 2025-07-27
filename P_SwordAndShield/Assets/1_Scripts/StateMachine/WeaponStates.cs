@@ -35,7 +35,7 @@ public class Weapon_Carry : WeaponState
 
     public override void onLateUpdate()
     {
-        var target = Vector3.Lerp(Assigned_SM.AssignedWeapon.transform.position, Assigned_SM.Controller.transform.position + new Vector3(0f, .55f, 0f), Time.deltaTime * 50f);
+        var target = Vector3.Lerp(Assigned_SM.AssignedWeapon.transform.position, Assigned_SM.Controller.transform.position + new Vector3(0f, 1f, 0f), Time.deltaTime * 50f);
         Assigned_SM.AssignedWeapon.WeaponRigidBody.MovePosition(target);
     }
 
@@ -130,6 +130,7 @@ public class Weapon_Primary : WeaponState
 }
 public class Weapon_Recharge : WeaponState
 {
+    CancellationTokenSource Token;
     public Weapon_Recharge(string ID) : base(ID) { }
     public override bool checkValid()
     {
@@ -138,12 +139,16 @@ public class Weapon_Recharge : WeaponState
 
     public override void onEnter()
     {
-
+        var Time = Assigned_SM.ClearWeapon();
+        Token = new CancellationTokenSource();
+        _ = StartActiveTimer(Token, Time);
     }
 
     public override void onExit()
     {
-
+        if (Token == null) return;
+        Token.Cancel();
+        Token = null;
     }
 
     public override void onFixedUpdate()
@@ -164,5 +169,12 @@ public class Weapon_Recharge : WeaponState
     public override void onUpdate()
     {
 
+    }
+
+    private async UniTask StartActiveTimer(CancellationTokenSource _Token, float Time)
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(Time), cancellationToken: _Token.Token);
+        Token = null;
+        Assigned_SM.IterateWeapon();
     }
 }

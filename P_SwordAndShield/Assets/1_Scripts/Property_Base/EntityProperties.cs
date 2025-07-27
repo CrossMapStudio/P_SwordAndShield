@@ -7,6 +7,16 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Rigidbody2D))]
 public abstract class Entity : MonoBehaviour
 {
+    public enum Team
+    {
+        Team1,
+        Team2,
+        Team3,
+        Team4
+    }
+
+    [field: SerializeField] public Team AssignedTeam { get; private set; }
+
     public UnityEvent OnDamageArmor { get; set; }
     public UnityEvent OnDamageNoArmor { get; set; }
     public UnityEvent OnPlayerDead { get; set; }

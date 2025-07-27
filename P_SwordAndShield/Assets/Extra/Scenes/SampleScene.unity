@@ -472,9 +472,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90654c17351ec3b47ab4b973ad8f17d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <AssignedTeam>k__BackingField: 0
   <SpriteRend>k__BackingField: {fileID: 941805974}
   <SpriteAnimator>k__BackingField: {fileID: 941805975}
-  <ID>k__BackingField: 0
+  <ID>k__BackingField: 1
 --- !u!50 &66440456
 Rigidbody2D:
   serializedVersion: 5

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4416415726172426176}
   - component: {fileID: 386959370196116508}
   m_Layer: 6
-  m_Name: KnightShortSword
+  m_Name: KnightHeavySword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: -1405282111
   m_SortingLayer: 3
   m_SortingOrder: 1
-  m_Sprite: {fileID: 7911335423599211159, guid: 36bfaf20afa9f86438edcc77b5d71589, type: 3}
+  m_Sprite: {fileID: -1747440390029680005, guid: 36bfaf20afa9f86438edcc77b5d71589, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -124,7 +124,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.07635158, y: -0.0013084412}
+  m_Offset: {x: 0.046910763, y: -0.00038838387}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -134,7 +134,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.65331495, y: 0.1310401}
+  m_Size: {x: 0.5944333, y: 0.2580037}
   m_EdgeRadius: 0
 --- !u!50 &4416415726172426176
 Rigidbody2D:
@@ -178,7 +178,7 @@ MonoBehaviour:
   <TargetTeam>k__BackingField: 0
   <WeaponRigidBody>k__BackingField: {fileID: 4416415726172426176}
   <WeaponSpriteRenderer>k__BackingField: {fileID: 4357016046984942590}
-  <RechargeTarget>k__BackingField: 1.25
-  Damage: 1
-  Speed: 20
+  <RechargeTarget>k__BackingField: 2
+  Damage: 5
+  Speed: 12
   ActiveTime: 0.2

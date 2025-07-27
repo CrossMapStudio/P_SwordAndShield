@@ -202,6 +202,7 @@ public class WeaponStateMachine : StateMachine
         for (int i = 0; i < weapons.Count; i++)
         {
             WeaponList.Add(GameObject.Instantiate(weapons[i], _Controller.transform.position, Quaternion.identity));
+            WeaponList[i].AssignedTeam = _Controller.AssignedTeam;
             if (i == 0)
             {
                 AssignedWeapon = WeaponList[0];
@@ -245,6 +246,7 @@ public class WeaponStateMachine : StateMachine
 
     public void OnPrimaryDown(InputAction.CallbackContext Context)
     {
+        if (getCurrentStateName() != "W_Carry") return;
         //If Weapon Available -> Begin Aiming
         if (AssignedWeapon == null) return;
         //Fire/Invoke Tied Portions -> Player State Machine 
@@ -254,9 +256,26 @@ public class WeaponStateMachine : StateMachine
 
     public void OnPrimaryUp(InputAction.CallbackContext Context)
     {
+        if (getCurrentStateName() != "W_Aim") return;
         if (AssignedWeapon == null) return;
         changeState(Weapon_States.FirstOrDefault(c => c.ID == "W_Primary"));
         OnRelease.Invoke();
+    }
+
+    public float ClearWeapon()
+    {
+        var timer = AssignedWeapon.RechargeTarget;
+        AssignedWeapon = null;
+        return timer;
+    }
+
+    public void IterateWeapon()
+    {
+        if (WeaponIndex >= WeaponList.Count - 1) WeaponIndex = 0; else { WeaponIndex++; }
+        AssignedWeapon = WeaponList[WeaponIndex];
+        AssignedWeapon.transform.position = Controller.transform.position;
+        AssignedWeapon.gameObject.SetActive(true);
+        changeState(Weapon_States.FirstOrDefault(c => c.ID == "W_Carry"));
     }
 }
 #endregion
