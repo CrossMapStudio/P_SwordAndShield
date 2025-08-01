@@ -71,7 +71,7 @@ public class StateMachine
 
 public class PlayerStateMachine : StateMachine
 {
-    private PlayerInputDriver InputDriver;
+    public PlayerInputDriver InputDriver { get; private set; }
     public PlayerController Controller { get; private set; }
     public List<PlayerState> Player_States { get; private set; }
     public Character CharacterDB_ID { get; private set; }
@@ -81,7 +81,7 @@ public class PlayerStateMachine : StateMachine
     //Create Our Weapon State Machine and Populate Weapons:::
     private WeaponStateMachine Weapon_SM;
 
-    public PlayerStateMachine(Character ID, PlayerController _Controller, Rigidbody2D _PlayerRigidBody, SpriteRenderer _PlayerSpriteRenderer, Animator _SpriteAnimator)
+    public PlayerStateMachine(Character ID, PlayerController _Controller, Rigidbody2D _PlayerRigidBody, CapsuleCollider2D _PlayerCapsuleCollider, SpriteRenderer _PlayerSpriteRenderer, Animator _SpriteAnimator)
     {
         CharacterDB_ID = ID;
         Controller = _Controller;
@@ -93,6 +93,16 @@ public class PlayerStateMachine : StateMachine
             Assigned_SM = this,
             InputController = this.InputDriver,
             PlayerRigidBody = _PlayerRigidBody,
+            PlayerCapsuleCollider = _PlayerCapsuleCollider,
+            PlayerSpriteRenderer = _PlayerSpriteRenderer,
+            PlayerSpriteAnimator = _SpriteAnimator
+        });
+        Player_States.Add(new Player_Shield("P_Shield")
+        {
+            Assigned_SM = this,
+            InputController = InputDriver,
+            PlayerRigidBody = _PlayerRigidBody,
+            PlayerCapsuleCollider = _PlayerCapsuleCollider,
             PlayerSpriteRenderer = _PlayerSpriteRenderer,
             PlayerSpriteAnimator = _SpriteAnimator
         });
@@ -101,6 +111,7 @@ public class PlayerStateMachine : StateMachine
             Assigned_SM = this,
             InputController = InputDriver,
             PlayerRigidBody = _PlayerRigidBody,
+            PlayerCapsuleCollider = _PlayerCapsuleCollider,
             PlayerSpriteRenderer = _PlayerSpriteRenderer,
             PlayerSpriteAnimator = _SpriteAnimator
         });
@@ -109,6 +120,7 @@ public class PlayerStateMachine : StateMachine
             Assigned_SM = this,
             InputController = InputDriver,
             PlayerRigidBody = _PlayerRigidBody,
+            PlayerCapsuleCollider = _PlayerCapsuleCollider,
             PlayerSpriteRenderer = _PlayerSpriteRenderer,
             PlayerSpriteAnimator = _SpriteAnimator
         });
@@ -117,6 +129,7 @@ public class PlayerStateMachine : StateMachine
             Assigned_SM = this,
             InputController = InputDriver,
             PlayerRigidBody = _PlayerRigidBody,
+            PlayerCapsuleCollider = _PlayerCapsuleCollider,
             PlayerSpriteRenderer = _PlayerSpriteRenderer,
             PlayerSpriteAnimator = _SpriteAnimator
         });
@@ -125,6 +138,7 @@ public class PlayerStateMachine : StateMachine
             Assigned_SM = this,
             InputController = InputDriver,
             PlayerRigidBody = _PlayerRigidBody,
+            PlayerCapsuleCollider = _PlayerCapsuleCollider,
             PlayerSpriteRenderer = _PlayerSpriteRenderer,
             PlayerSpriteAnimator = _SpriteAnimator
         });
@@ -133,6 +147,7 @@ public class PlayerStateMachine : StateMachine
             Assigned_SM = this,
             InputController = InputDriver,
             PlayerRigidBody = _PlayerRigidBody,
+            PlayerCapsuleCollider = _PlayerCapsuleCollider,
             PlayerSpriteRenderer = _PlayerSpriteRenderer,
             PlayerSpriteAnimator = _SpriteAnimator
         });
@@ -147,28 +162,28 @@ public class PlayerStateMachine : StateMachine
 
         changeState(Player_States.FirstOrDefault(c => c.ID == "P_Movement"));
         PlayerInput = InputDriver.Get_Movement.ReadValue<Vector2>();
-        InputDriver.Get_Boost.performed += QueueInput_Dodge;
+        //InputDriver.Get_Boost.performed += QueueInput_Dodge;
 
         //Generate the Weapons for the Character --->
-        Weapon_SM = new WeaponStateMachine(CharacterDB_ID, InputDriver, Controller);
+        //Weapon_SM = new WeaponStateMachine(CharacterDB_ID, InputDriver, Controller);
     }
 
     public override void executeStateUpdate()
     {
         base.executeStateUpdate();
-        Weapon_SM.executeStateUpdate();
+        //Weapon_SM.executeStateUpdate();
     }
 
     public override void executeStateFixedUpdate()
     {
         base.executeStateFixedUpdate();
-        Weapon_SM.executeStateFixedUpdate();
+        //Weapon_SM.executeStateFixedUpdate();
     }
 
     public override void executeStateLateUpdate()
     {
         base.executeStateLateUpdate();
-        Weapon_SM.executeStateLateUpdate();
+        //Weapon_SM.executeStateLateUpdate();
     }
 
     public void QueueInput_Dodge(InputAction.CallbackContext Context)

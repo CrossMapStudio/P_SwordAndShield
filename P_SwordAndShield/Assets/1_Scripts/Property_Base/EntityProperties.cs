@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(Collider2D))]
-[RequireComponent(typeof(Rigidbody2D))]
 public abstract class Entity : MonoBehaviour
 {
     public enum Team
@@ -20,7 +18,6 @@ public abstract class Entity : MonoBehaviour
     public UnityEvent OnDamageArmor { get; set; }
     public UnityEvent OnDamageNoArmor { get; set; }
     public UnityEvent OnPlayerDead { get; set; }
-    public UnityEvent OnEnvironmentCollisionEnter { get; set; }
     public int BaseHealth { get; private set; }
     public int BaseArmor { get; private set; }
     protected int CurrentHealth { get; set; }
@@ -31,7 +28,6 @@ public abstract class Entity : MonoBehaviour
         OnDamageArmor = new UnityEvent();
         OnDamageNoArmor = new UnityEvent();
         OnPlayerDead = new UnityEvent();
-        OnEnvironmentCollisionEnter = new UnityEvent();
     }
 
     public void InitializeEntity(Character ID)
@@ -47,19 +43,7 @@ public abstract class Entity : MonoBehaviour
         BaseArmor = CurrentArmor = Armor;
         BaseHealth = CurrentHealth = Health; 
     }
-
     public abstract void TakeDamage(int _Damage);
-
-    public void OnCollisionEnter2D(Collision2D Source)
-    {
-        if (Source.collider.tag == "Environment")
-        {
-            Debug.Log("Hit Environment");
-            if (OnEnvironmentCollisionEnter != null)
-                OnEnvironmentCollisionEnter.Invoke();
-        }
-    }
-
     public void OnRespawn()
     {
         CurrentArmor = BaseArmor;

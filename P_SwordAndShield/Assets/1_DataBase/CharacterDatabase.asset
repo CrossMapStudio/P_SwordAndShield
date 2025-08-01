@@ -15,16 +15,30 @@ MonoBehaviour:
   CharacterList:
   - ID: 0
     <MaxSpeed>k__BackingField: 3
-    <Acceleration>k__BackingField: 20
+    <Acceleration>k__BackingField: 50
     <BaseHealth>k__BackingField: 6
     <BaseArmor>k__BackingField: 2
     <Idle>k__BackingField: {fileID: 7400000, guid: d380b25d73ca97b4c88f6def5c22fae5, type: 2}
     <Running>k__BackingField: {fileID: 7400000, guid: 2e581164b7b067c4695103c20adce92d, type: 2}
-    <Dodging>k__BackingField: {fileID: 7400000, guid: 6fe18f49b9dae1947935d0b7c96c3f45, type: 2}
+    <Action_1>k__BackingField: {fileID: 7400000, guid: 6fe18f49b9dae1947935d0b7c96c3f45, type: 2}
     <Stunned>k__BackingField: {fileID: 7400000, guid: 35befbee195347244abdf741d4e231ca, type: 2}
     <WeaponList>k__BackingField:
     - {fileID: 386959370196116508, guid: da56b2ca623a8764691f5e530e52d9e3, type: 3}
-    - {fileID: 386959370196116508, guid: d205f23e36d3aa1469b2aaa27088461c, type: 3}
+    PlayerLayer:
+      serializedVersion: 2
+      m_Bits: 8
+    GroundDeceleration: 35
+    AirDeceleration: 40
+    GroundingForce: -1.5
+    GrounderDistance: 0.05
+    JumpPower: 8
+    MaxFallSpeed: 8
+    FallAcceleration: 30
+    JumpEndEarlyGravityModifier: 2.5
+    CoyoteTime: 0.15
+    JumpBuffer: 0.15
+    <JumpCount>k__BackingField: 2
+    <DodgeCount>k__BackingField: 1
   - ID: 1
     <MaxSpeed>k__BackingField: 4
     <Acceleration>k__BackingField: 15
@@ -32,8 +46,22 @@ MonoBehaviour:
     <BaseArmor>k__BackingField: 1
     <Idle>k__BackingField: {fileID: 7400000, guid: 7c5a6bc0d168be848954256344f55037, type: 2}
     <Running>k__BackingField: {fileID: 7400000, guid: 86b00f2386deb004382482e96d492252, type: 2}
-    <Dodging>k__BackingField: {fileID: 7400000, guid: 49db660416d321d438f3b0a92caf9db6, type: 2}
+    <Action_1>k__BackingField: {fileID: 0}
     <Stunned>k__BackingField: {fileID: 7400000, guid: 35befbee195347244abdf741d4e231ca, type: 2}
     <WeaponList>k__BackingField:
     - {fileID: 386959370196116508, guid: da56b2ca623a8764691f5e530e52d9e3, type: 3}
-    - {fileID: 386959370196116508, guid: d205f23e36d3aa1469b2aaa27088461c, type: 3}
+    PlayerLayer:
+      serializedVersion: 2
+      m_Bits: 0
+    GroundDeceleration: 60
+    AirDeceleration: 30
+    GroundingForce: -1.5
+    GrounderDistance: 0.05
+    JumpPower: 36
+    MaxFallSpeed: 40
+    FallAcceleration: 110
+    JumpEndEarlyGravityModifier: 3
+    CoyoteTime: 0.15
+    JumpBuffer: 0.2
+    <JumpCount>k__BackingField: 0
+    <DodgeCount>k__BackingField: 0

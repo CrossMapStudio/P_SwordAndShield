@@ -29,7 +29,7 @@ public class PlayerInputDriver
 
         Movement = Input_Controller.GameStateActive.Move;
         Primary_Action = Input_Controller.GameStateActive.Attack;
-        Secondary_Action = Input_Controller.GameStateActive.Attack2;
+        Secondary_Action = Input_Controller.GameStateActive.Shield;
         Boost = Input_Controller.GameStateActive.Boost;
     }
 

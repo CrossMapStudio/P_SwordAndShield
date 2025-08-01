@@ -22,6 +22,7 @@ public abstract class PlayerState : BaseState
     public PlayerState(string ID) : base(ID) { }
     internal PlayerInputDriver InputController { get; set; }
     internal Rigidbody2D PlayerRigidBody { get; set; }
+    internal CapsuleCollider2D PlayerCapsuleCollider { get; set; }
     internal SpriteRenderer PlayerSpriteRenderer { get; set; }
     internal Animator PlayerSpriteAnimator { get; set; }
 }

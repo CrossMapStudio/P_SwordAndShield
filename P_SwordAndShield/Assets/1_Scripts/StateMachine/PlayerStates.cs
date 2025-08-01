@@ -4,6 +4,8 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using UnityEngine.InputSystem;
 
 public class Player_Hold : PlayerState
 {
@@ -45,16 +47,16 @@ public class Player_Hold : PlayerState
 }
 public class Player_Movement : PlayerState
 {
-    private Vector2 CurrentMovement = Vector2.zero;
-    private float Acceleration = 15f, MaxSpeed = 5f;
     public Player_Movement(string ID) : base(ID) { }
-    public override PlayerStateMachine Assigned_SM { get => base.Assigned_SM; 
-        set 
+    public override PlayerStateMachine Assigned_SM
+    {
+        get => base.Assigned_SM;
+        set
         {
             base.Assigned_SM = value;
-            Acceleration = ClientGameController.Controller.Characters.GetCharacterByID(Assigned_SM.CharacterDB_ID).Acceleration;
-            MaxSpeed = ClientGameController.Controller.Characters.GetCharacterByID(Assigned_SM.CharacterDB_ID).MaxSpeed;
-        } 
+            //Acceleration = ClientGameController.Controller.Characters.GetCharacterByID(Assigned_SM.CharacterDB_ID).Acceleration;
+            //MaxSpeed = ClientGameController.Controller.Characters.GetCharacterByID(Assigned_SM.CharacterDB_ID).MaxSpeed;
+        }
     }
 
     public override bool checkValid()
@@ -64,53 +66,108 @@ public class Player_Movement : PlayerState
 
     public override void onEnter()
     {
-        CurrentMovement = Vector2.zero;
+        Assigned_SM.InputDriver.Get_Boost.performed += Assigned_SM.Controller.ApplyJump;
+        Assigned_SM.InputDriver.Get_SecondaryAction.performed += Assigned_SM.Controller.ApplyShield;
     }
 
     public override void onExit()
     {
-        
+        Assigned_SM.InputDriver.Get_Boost.performed -= Assigned_SM.Controller.ApplyJump;
+        Assigned_SM.InputDriver.Get_SecondaryAction.performed -= Assigned_SM.Controller.ApplyShield;
     }
 
     public override void onFixedUpdate()
     {
-        PlayerRigidBody.MovePosition((Vector2)PlayerRigidBody.transform.position + CurrentMovement * Time.fixedDeltaTime);
+        Assigned_SM.Controller.ApplyBaseMovement.Invoke();
     }
 
     public override void onInactiveUpdate()
     {
-        
+
     }
 
     public override void onLateUpdate()
     {
-        
+
     }
 
     public override void onUpdate()
     {
-        Assigned_SM.PlayerInput = InputController.Get_Movement.ReadValue<Vector2>().normalized;
-        CurrentMovement = Vector2.Lerp(CurrentMovement, Assigned_SM.PlayerInput * MaxSpeed, Acceleration * Time.deltaTime);
+        Vector2 Input = InputController.Get_Movement.ReadValue<Vector2>().normalized;
+        Input.y = 0;
+        Assigned_SM.PlayerInput = Input;
         #region Animator
         AnimatorStateInfo CurrentClipState = PlayerSpriteAnimator.GetCurrentAnimatorStateInfo(0);
-        if (Assigned_SM.PlayerInput != Vector2.zero && !CurrentClipState.IsName("Run"))
-            PlayerSpriteAnimator.Play("Run");
-        else if (Assigned_SM.PlayerInput == Vector2.zero && !CurrentClipState.IsName("Idle"))
-            PlayerSpriteAnimator.Play("Idle");
-        #endregion
+       
+        //If the Player is not Grounded ->
+        if (!Assigned_SM.Controller._PlayerGrounded && !CurrentClipState.IsName("Action_1"))
+        {
+            PlayerSpriteAnimator.Play("Action_1");
+        }
+        else if (Assigned_SM.Controller._PlayerGrounded)
+        {
+            //If the Player is Grounded ->
+            if (Assigned_SM.PlayerInput != Vector2.zero && !CurrentClipState.IsName("Run"))
+                PlayerSpriteAnimator.Play("Run");
+            else if (Assigned_SM.PlayerInput == Vector2.zero && !CurrentClipState.IsName("Idle"))
+                PlayerSpriteAnimator.Play("Idle");
+            #endregion
+        }
+
         if (Assigned_SM.PlayerInput.x == 0)
         {
             return;
         }
+
         PlayerSpriteRenderer.flipX = Assigned_SM.PlayerInput.x > 0 ? false : true;
+    }
+}
+public class Player_Shield : PlayerState
+{
+    public Player_Shield(string ID) : base(ID) { }
+    public override bool checkValid()
+    {
+        return true;
+    }
+
+    public override void onEnter()
+    {
+        Debug.Log("Player Entered Shield State");
+        Assigned_SM.InputDriver.Get_SecondaryAction.canceled += Assigned_SM.Controller.ReleaseShield;
+    }
+
+    public override void onExit()
+    {
+        Debug.Log("Player Exited Shield State");
+        Assigned_SM.InputDriver.Get_SecondaryAction.canceled -= Assigned_SM.Controller.ReleaseShield;
+    }
+
+    public override void onUpdate()
+    {
+        Vector2 Input = InputController.Get_Movement.ReadValue<Vector2>().normalized;
+        Input.y = 0;
+        Assigned_SM.PlayerInput = Input;
+        if (Mathf.Abs(Input.x) > 0) Assigned_SM.Controller.ApplyDodge?.Invoke();
+    }
+    public override void onFixedUpdate()
+    {
+        Assigned_SM.Controller.ApplyBaseMovement.Invoke();
+    }
+    public override void onLateUpdate()
+    {
+
+    }
+    public override void onInactiveUpdate()
+    {
+
     }
 }
 public class Player_Dodge : PlayerState
 {
     private Vector2 DodgeDirection, CurrentMovement;
-    private float DodgeDuration = .5f;
-    private float DodgeSpeed = 8f, DodgeCurrentSpeed;
-    private float DodgeAcceleration = 5f;
+    private float DodgeDuration = .35f;
+    private float DodgeSpeed = 15f, DodgeCurrentSpeed;
+    private float DodgeDeceleration = 15f;
     private CancellationTokenSource Token;
 
     public Player_Dodge(string ID) : base(ID) { }
@@ -125,17 +182,15 @@ public class Player_Dodge : PlayerState
     {
         DodgeCurrentSpeed = DodgeSpeed;
         DodgeDirection = Assigned_SM.PlayerInput;
-        PlayerSpriteAnimator.Play("Dodge");
+        PlayerSpriteAnimator.Play("Action_1");
 
         Token = new CancellationTokenSource();
         _ = StartDodgeTimer(Token);
-
-        Assigned_SM.Controller.OnEnvironmentCollisionEnter.AddListener(EnterStun_OnEnvironmentCollision);
     }
 
     public override void onExit()
     {
-        Assigned_SM.Controller.OnEnvironmentCollisionEnter.RemoveListener(EnterStun_OnEnvironmentCollision);
+        Assigned_SM.Controller.ResetVelocity?.Invoke();
         if (Token == null) return;
         Token.Cancel();
         Token = null;
@@ -143,7 +198,7 @@ public class Player_Dodge : PlayerState
 
     public override void onUpdate()
     {
-        DodgeCurrentSpeed = Mathf.Lerp(DodgeCurrentSpeed, 0f, DodgeAcceleration * Time.deltaTime);
+        DodgeCurrentSpeed = Mathf.Lerp(DodgeCurrentSpeed, 0f, DodgeDeceleration * Time.deltaTime);
         CurrentMovement = DodgeDirection.normalized * DodgeCurrentSpeed;
     }
 
@@ -160,11 +215,6 @@ public class Player_Dodge : PlayerState
     public override void onInactiveUpdate()
     {
 
-    }
-
-    private void EnterStun_OnEnvironmentCollision()
-    {
-        Assigned_SM.changeState(Assigned_SM.Player_States.FirstOrDefault(c => c.ID == "P_Stunned"));
     }
 
     private async UniTask StartDodgeTimer(CancellationTokenSource _Token)
