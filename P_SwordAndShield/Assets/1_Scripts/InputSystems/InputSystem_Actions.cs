@@ -37,7 +37,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Look"",
+                    ""name"": ""Weapon"",
                     ""type"": ""Value"",
                     ""id"": ""6b444451-8a00-4d00-a97e-f47457f736a8"",
                     ""expectedControlType"": ""Vector2"",
@@ -112,6 +112,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""Sprint"",
                     ""type"": ""Button"",
                     ""id"": ""641cd816-40e6-41b4-8c3d-04687c349290"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dive"",
+                    ""type"": ""Button"",
+                    ""id"": ""23265cf7-4cf9-48ec-aa86-40aa75b2ef52"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -258,29 +267,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8c8e490b-c610-4785-884f-f04217b23ca4"",
-                    ""path"": ""<Pointer>/delta"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse;Touch"",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3e5f5442-8668-4b27-a940-df99bad7e831"",
-                    ""path"": ""<Joystick>/{Hatswitch}"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Joystick"",
-                    ""action"": ""Look"",
+                    ""action"": ""Weapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -440,22 +427,22 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""daba33a1-ad0c-4742-a909-43ad1cdfbeb6"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""id"": ""603f3daf-40bd-4854-8724-93e8017f59e3"",
+                    ""path"": ""<XRController>/secondaryButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""XR"",
                     ""action"": ""Boost"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""603f3daf-40bd-4854-8724-93e8017f59e3"",
-                    ""path"": ""<XRController>/secondaryButton"",
+                    ""id"": ""4084de18-3d93-4064-a0b6-1928441168c1"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""XR"",
+                    ""groups"": "";Gamepad"",
                     ""action"": ""Boost"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -523,6 +510,28 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c41435a7-7ff6-42d9-b3a7-be02555c38f5"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Dive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bff4c0cd-cf23-4952-a311-42ab5d41b334"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Dive"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1111,7 +1120,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         // GameStateActive
         m_GameStateActive = asset.FindActionMap("GameStateActive", throwIfNotFound: true);
         m_GameStateActive_Move = m_GameStateActive.FindAction("Move", throwIfNotFound: true);
-        m_GameStateActive_Look = m_GameStateActive.FindAction("Look", throwIfNotFound: true);
+        m_GameStateActive_Weapon = m_GameStateActive.FindAction("Weapon", throwIfNotFound: true);
         m_GameStateActive_Attack = m_GameStateActive.FindAction("Attack", throwIfNotFound: true);
         m_GameStateActive_Shield = m_GameStateActive.FindAction("Shield", throwIfNotFound: true);
         m_GameStateActive_Interact = m_GameStateActive.FindAction("Interact", throwIfNotFound: true);
@@ -1120,6 +1129,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_GameStateActive_Previous = m_GameStateActive.FindAction("Previous", throwIfNotFound: true);
         m_GameStateActive_Next = m_GameStateActive.FindAction("Next", throwIfNotFound: true);
         m_GameStateActive_Sprint = m_GameStateActive.FindAction("Sprint", throwIfNotFound: true);
+        m_GameStateActive_Dive = m_GameStateActive.FindAction("Dive", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1200,7 +1210,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_GameStateActive;
     private List<IGameStateActiveActions> m_GameStateActiveActionsCallbackInterfaces = new List<IGameStateActiveActions>();
     private readonly InputAction m_GameStateActive_Move;
-    private readonly InputAction m_GameStateActive_Look;
+    private readonly InputAction m_GameStateActive_Weapon;
     private readonly InputAction m_GameStateActive_Attack;
     private readonly InputAction m_GameStateActive_Shield;
     private readonly InputAction m_GameStateActive_Interact;
@@ -1209,12 +1219,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_GameStateActive_Previous;
     private readonly InputAction m_GameStateActive_Next;
     private readonly InputAction m_GameStateActive_Sprint;
+    private readonly InputAction m_GameStateActive_Dive;
     public struct GameStateActiveActions
     {
         private @InputSystem_Actions m_Wrapper;
         public GameStateActiveActions(@InputSystem_Actions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_GameStateActive_Move;
-        public InputAction @Look => m_Wrapper.m_GameStateActive_Look;
+        public InputAction @Weapon => m_Wrapper.m_GameStateActive_Weapon;
         public InputAction @Attack => m_Wrapper.m_GameStateActive_Attack;
         public InputAction @Shield => m_Wrapper.m_GameStateActive_Shield;
         public InputAction @Interact => m_Wrapper.m_GameStateActive_Interact;
@@ -1223,6 +1234,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         public InputAction @Previous => m_Wrapper.m_GameStateActive_Previous;
         public InputAction @Next => m_Wrapper.m_GameStateActive_Next;
         public InputAction @Sprint => m_Wrapper.m_GameStateActive_Sprint;
+        public InputAction @Dive => m_Wrapper.m_GameStateActive_Dive;
         public InputActionMap Get() { return m_Wrapper.m_GameStateActive; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1235,9 +1247,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
-            @Look.started += instance.OnLook;
-            @Look.performed += instance.OnLook;
-            @Look.canceled += instance.OnLook;
+            @Weapon.started += instance.OnWeapon;
+            @Weapon.performed += instance.OnWeapon;
+            @Weapon.canceled += instance.OnWeapon;
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
@@ -1262,6 +1274,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
+            @Dive.started += instance.OnDive;
+            @Dive.performed += instance.OnDive;
+            @Dive.canceled += instance.OnDive;
         }
 
         private void UnregisterCallbacks(IGameStateActiveActions instance)
@@ -1269,9 +1284,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
-            @Look.started -= instance.OnLook;
-            @Look.performed -= instance.OnLook;
-            @Look.canceled -= instance.OnLook;
+            @Weapon.started -= instance.OnWeapon;
+            @Weapon.performed -= instance.OnWeapon;
+            @Weapon.canceled -= instance.OnWeapon;
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
@@ -1296,6 +1311,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
+            @Dive.started -= instance.OnDive;
+            @Dive.performed -= instance.OnDive;
+            @Dive.canceled -= instance.OnDive;
         }
 
         public void RemoveCallbacks(IGameStateActiveActions instance)
@@ -1479,7 +1497,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     public interface IGameStateActiveActions
     {
         void OnMove(InputAction.CallbackContext context);
-        void OnLook(InputAction.CallbackContext context);
+        void OnWeapon(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnShield(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
@@ -1488,6 +1506,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         void OnPrevious(InputAction.CallbackContext context);
         void OnNext(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
+        void OnDive(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

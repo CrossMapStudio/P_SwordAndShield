@@ -26,12 +26,3 @@ public abstract class PlayerState : BaseState
     internal SpriteRenderer PlayerSpriteRenderer { get; set; }
     internal Animator PlayerSpriteAnimator { get; set; }
 }
-
-public abstract class WeaponState : BaseState
-{
-    public virtual WeaponStateMachine Assigned_SM { get; set; }
-    public WeaponState(string ID) : base(ID) { }
-    internal PlayerInputDriver InputController { get; set; }
-    internal Rigidbody2D WeaponRigidBody2D { get; set; }
-    internal SpriteRenderer WeaponSpriteRenderer { get; set; }
-}

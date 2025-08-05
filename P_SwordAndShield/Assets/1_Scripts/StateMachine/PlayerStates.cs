@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine.InputSystem;
-
 public class Player_Hold : PlayerState
 {
     public Player_Hold(string ID) : base(ID) { }
@@ -66,19 +65,21 @@ public class Player_Movement : PlayerState
 
     public override void onEnter()
     {
-        Assigned_SM.InputDriver.Get_Boost.performed += Assigned_SM.Controller.ApplyJump;
-        Assigned_SM.InputDriver.Get_SecondaryAction.performed += Assigned_SM.Controller.ApplyShield;
+        Assigned_SM.InputDriver.Get_Boost.performed += Assigned_SM._StartJump;
+        Assigned_SM.InputDriver.Get_SecondaryAction.performed += Assigned_SM._StartShieldActive;
+        Assigned_SM.InputDriver.Get_Dive.performed += Assigned_SM._StartDive;
     }
 
     public override void onExit()
     {
-        Assigned_SM.InputDriver.Get_Boost.performed -= Assigned_SM.Controller.ApplyJump;
-        Assigned_SM.InputDriver.Get_SecondaryAction.performed -= Assigned_SM.Controller.ApplyShield;
+        Assigned_SM.InputDriver.Get_Boost.performed -= Assigned_SM._StartJump;
+        Assigned_SM.InputDriver.Get_SecondaryAction.performed -= Assigned_SM._StartShieldActive;
+        Assigned_SM.InputDriver.Get_Dive.performed -= Assigned_SM._StartDive;
     }
 
     public override void onFixedUpdate()
     {
-        Assigned_SM.Controller.ApplyBaseMovement.Invoke();
+        Assigned_SM.ApplyBaseMovement.Invoke();
     }
 
     public override void onInactiveUpdate()
@@ -100,11 +101,11 @@ public class Player_Movement : PlayerState
         AnimatorStateInfo CurrentClipState = PlayerSpriteAnimator.GetCurrentAnimatorStateInfo(0);
        
         //If the Player is not Grounded ->
-        if (!Assigned_SM.Controller._PlayerGrounded && !CurrentClipState.IsName("Action_1"))
+        if (!Assigned_SM._PlayerGrounded && !CurrentClipState.IsName("Action_1"))
         {
             PlayerSpriteAnimator.Play("Action_1");
         }
-        else if (Assigned_SM.Controller._PlayerGrounded)
+        else if (Assigned_SM._PlayerGrounded)
         {
             //If the Player is Grounded ->
             if (Assigned_SM.PlayerInput != Vector2.zero && !CurrentClipState.IsName("Run"))
@@ -133,13 +134,13 @@ public class Player_Shield : PlayerState
     public override void onEnter()
     {
         Debug.Log("Player Entered Shield State");
-        Assigned_SM.InputDriver.Get_SecondaryAction.canceled += Assigned_SM.Controller.ReleaseShield;
+        Assigned_SM.InputDriver.Get_SecondaryAction.canceled += Assigned_SM._StartShieldRelease;
     }
 
     public override void onExit()
     {
         Debug.Log("Player Exited Shield State");
-        Assigned_SM.InputDriver.Get_SecondaryAction.canceled -= Assigned_SM.Controller.ReleaseShield;
+        Assigned_SM.InputDriver.Get_SecondaryAction.canceled -= Assigned_SM._StartShieldRelease;
     }
 
     public override void onUpdate()
@@ -147,11 +148,11 @@ public class Player_Shield : PlayerState
         Vector2 Input = InputController.Get_Movement.ReadValue<Vector2>().normalized;
         Input.y = 0;
         Assigned_SM.PlayerInput = Input;
-        if (Mathf.Abs(Input.x) > 0) Assigned_SM.Controller.ApplyDodge?.Invoke();
+        if (Mathf.Abs(Input.x) > 0) Assigned_SM._StartDodge?.Invoke();
     }
     public override void onFixedUpdate()
     {
-        Assigned_SM.Controller.ApplyBaseMovement.Invoke();
+        Assigned_SM.ApplyBaseMovement.Invoke();
     }
     public override void onLateUpdate()
     {
@@ -190,7 +191,7 @@ public class Player_Dodge : PlayerState
 
     public override void onExit()
     {
-        Assigned_SM.Controller.ResetVelocity?.Invoke();
+        Assigned_SM.ResetVelocity?.Invoke();
         if (Token == null) return;
         Token.Cancel();
         Token = null;
@@ -223,6 +224,84 @@ public class Player_Dodge : PlayerState
         Token = null;
         //Completed Dodge ->
         Assigned_SM.changeState(Assigned_SM.Player_States.FirstOrDefault(c => c.ID == "P_Movement"));
+    }
+}
+public class Player_Slide : PlayerState
+{
+    public Player_Slide(string ID) : base(ID) { }
+    public override bool checkValid()
+    {
+        return true;
+    }
+
+    public override void onEnter()
+    {
+
+    }
+
+    public override void onExit()
+    {
+
+    }
+
+    public override void onUpdate()
+    {
+
+    }
+
+    public override void onFixedUpdate()
+    {
+
+    }
+
+    public override void onLateUpdate()
+    {
+
+    }
+
+    public override void onInactiveUpdate()
+    {
+
+    }
+}
+public class Player_Dive : PlayerState
+{
+    public Player_Dive(string ID) : base(ID) { }
+    public override bool checkValid()
+    {
+        if (Assigned_SM._PlayerGrounded == true) return false;
+        if (Assigned_SM.Get_PlayerVelocity.y >= 0) return false;
+        return true;
+    }
+
+    public override void onEnter()
+    {
+        
+    }
+
+    public override void onExit()
+    {
+
+    }
+
+    public override void onUpdate()
+    {
+
+    }
+
+    public override void onFixedUpdate()
+    {
+        Assigned_SM.ApplyDiveMovement?.Invoke();
+    }
+
+    public override void onLateUpdate()
+    {
+
+    }
+
+    public override void onInactiveUpdate()
+    {
+
     }
 }
 public class Player_Hit : PlayerState
@@ -303,7 +382,7 @@ public class Player_Dead : PlayerState
 }
 public class Player_Stunned : PlayerState
 {
-    private float StunDuration = 1.25f;
+    private float StunDuration = .5f;
     private CancellationTokenSource Token;
 
     public Player_Stunned(string ID) : base(ID) { }
@@ -335,7 +414,7 @@ public class Player_Stunned : PlayerState
 
     public override void onFixedUpdate()
     {
-
+        Assigned_SM.ApplyForces?.Invoke();
     }
 
     public override void onLateUpdate()

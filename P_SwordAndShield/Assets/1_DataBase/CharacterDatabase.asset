@@ -24,6 +24,7 @@ MonoBehaviour:
     <Stunned>k__BackingField: {fileID: 7400000, guid: 35befbee195347244abdf741d4e231ca, type: 2}
     <WeaponList>k__BackingField:
     - {fileID: 386959370196116508, guid: da56b2ca623a8764691f5e530e52d9e3, type: 3}
+    - {fileID: 386959370196116508, guid: d205f23e36d3aa1469b2aaa27088461c, type: 3}
     PlayerLayer:
       serializedVersion: 2
       m_Bits: 8
@@ -32,13 +33,13 @@ MonoBehaviour:
     GroundingForce: -1.5
     GrounderDistance: 0.05
     JumpPower: 8
-    MaxFallSpeed: 8
+    MaxFallSpeed: 12
     FallAcceleration: 30
     JumpEndEarlyGravityModifier: 2.5
     CoyoteTime: 0.15
     JumpBuffer: 0.15
-    <JumpCount>k__BackingField: 2
-    <DodgeCount>k__BackingField: 1
+    <JumpCount>k__BackingField: 3
+    <DodgeCount>k__BackingField: 2
   - ID: 1
     <MaxSpeed>k__BackingField: 4
     <Acceleration>k__BackingField: 15

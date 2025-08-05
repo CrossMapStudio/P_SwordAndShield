@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public abstract class Weapon : MonoBehaviour
 {
@@ -6,52 +7,33 @@ public abstract class Weapon : MonoBehaviour
     [field: SerializeField] public bool TargetTeam { get; private set; }
     [field: SerializeField] public Rigidbody2D WeaponRigidBody { get; private set; }
     [field: SerializeField] public SpriteRenderer WeaponSpriteRenderer { get; private set; }
-    [field: SerializeField] public float RechargeTarget { get; private set; }
 
-    public enum W_State
+    public abstract void OnEnter();
+    public abstract void OnPrimaryDown();
+    public abstract void OnPrimaryUp();
+    public abstract void OnReloadStart(Action Callback);
+    public abstract void OnReloadComplete();
+
+    public virtual void LateUpdate()
     {
-        Carry,
-        Primary,
-        Exit,
+        /*
+        var target = Vector3.Lerp(transform.position, Controller.transform.position + new Vector3(0f, 1f, 0f), Time.deltaTime * 50f);
+        Assigned_SM.AssignedWeapon.WeaponRigidBody.MovePosition(target);
+        */
+
+        /*
+        if (PlayerInputDriver.CurrentControlScheme == PlayerInputDriver.ControlScheme.Keyboard)
+        {
+
+        }
+        else
+        {
+
+        }
+        float angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
+        WeaponRigidBody.MoveRotation(angle);
+        */
     }
-    public W_State CurrentState { get; private set; }
-
-    //On Recharge
-    public virtual void OnCarry_Enter()
-    {
-        CurrentState = W_State.Carry;
-    }
-
-    public virtual void OnCarry_Update()
-    {
-
-    }
-
-    public virtual void OnPrimaryUse_Holding()
-    {
-
-    }
-
-    public virtual void OnSecondaryUse_Holding()
-    {
-
-    }
-
-    public virtual void OnPrimaryUse_Release()
-    {
-        CurrentState = W_State.Primary;
-    }
-
-    public virtual void OnSecondaryUse_Release()
-    {
-
-    }
-    public virtual void OnExit()
-    {
-        CurrentState = W_State.Exit;
-    }
-
-    public virtual void OnTriggerEnter2D(Collider2D Source) { }
 }
 
 
